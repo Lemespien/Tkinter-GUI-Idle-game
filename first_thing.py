@@ -84,7 +84,7 @@ def resource_display_updater(updater, resources, resource_box):
                 resource.label.config(text=f"{resource.name}: {resource.get()} ({drain}/tick)")
             if resource.automated.get():
                 ### this part -> fix drain when less than 0
-                resource.set(drain)
+                resource.set()
 
         updater.after(100, tracker)
     tracker()

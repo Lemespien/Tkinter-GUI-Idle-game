@@ -30,17 +30,20 @@ class Resources:
             self.amount.set(self.get() + amount)
             return
         need_count = 0
+        building_count = 0
+        for building in self.increase_amount_building:
+            building_count += self.increase_amount_building[building]
         for resource in dependent:
             need_amount = self.dependent[resource]
-            if resource.get() >= need_amount:
+            if resource.get() >= need_amount * building_count:
                 need_count += 1
             else:
                 if not self.automated:
-                    print(f"Not enough resources {resource.get()}/{need_amount}")
+                    print(f"Not enough {resource.name}: {resource.get()}/{need_amount * building_count}")
         if need_count >= len(dependent):
             for resource in dependent:
                 need_amount = dependent[resource]
-                resource.set(-need_amount)
+                resource.set(-need_amount * building_count)
             self.amount.set(self.get() + amount)
 
         # if dependent.get() >= need_amount:
