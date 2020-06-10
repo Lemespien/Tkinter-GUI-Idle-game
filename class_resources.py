@@ -1,24 +1,29 @@
 import tkinter as tk
+
+
 class Resources:
     ALL_RESOURCES = {}
+
     def __init__(self, name, amount=0, dependent=None, increase_amount_base=0):
         self.name = name
         self.amount = tk.IntVar()
+        self.unlocked = False
         self.amount.set(amount)
         self.dependent = dependent
         self.button = False
         self.automated = tk.BooleanVar()
         self.increase_amount_base = 1
-        self.increase_amount_building = {"Base":0}
+        self.increase_amount_building = {"Base": 0}
         self.increase_amount_other = {"Base": 0}
         self.multiplier_bonus = {"Base": 1}
         self.incrase_amount = 1
         self.label = None
+        self.check_box = None
         self.color_var = tk.StringVar()
         self.apply_all_increases()
         self.drains = {}
         Resources.ALL_RESOURCES[self] = self
-    
+
     def get(self):
         return self.amount.get()
 
@@ -97,30 +102,32 @@ class Resources:
     #         label.after(100, tracker)
     #     tracker()
 
-Food = Resources("Food", increase_amount_base=1)
+
+Food = Resources("Food",
+                 increase_amount_base=1)
 
 Wood = Resources("Wood",
-    dependent={
-        Food:10
-    })
+                 dependent={
+                     Food: 10
+                 })
 
 Stone = Resources("Stone",
-    dependent={
-        Food:10
-    })
+                  dependent={
+                      Food: 5
+                  })
 
 Water = Resources("Water")
 
 Wheat = Resources("Wheat",
-    dependent={
-        Food:50,
-        Water:10
-    })
+                  dependent={
+                      Food: 50,
+                      Water: 10
+                  })
 
-Bread = Resources("Bread", 
-    dependent={
-        Food:5, 
-        Wood:5, 
-        Water:10, 
-        Wheat:15
-    })
+Bread = Resources("Bread",
+                  dependent={
+                      Food: 5,
+                      Wood: 5,
+                      Water: 10,
+                      Wheat: 15
+                  })

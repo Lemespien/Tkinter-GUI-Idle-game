@@ -1,7 +1,10 @@
 from class_resources import *
 from class_building import *
+
+
 class Recipe():
     ALL_RECIPES = []
+
     def __init__(self, unlocked_resource, required_resources):
         self.unlocked_resource = unlocked_resource
         self.name = unlocked_resource.name
@@ -30,9 +33,9 @@ class Recipe():
                 return True
 
 
-
-wood_unlock = Recipe(Lumberjack_Hut, {Food:10})
-stone_unlock = Recipe(Stonemason, {Food:10, Wood: 20})
+wood_unlock = Recipe(Lumberjack_Hut, {Food: 10})
+stone_unlock = Recipe(Stonemason, {Food: 10, Wood: 20})
 water_unlock = Recipe(Water_Well, {Food: 100, Wood: 20, Stone: 50})
 wheat_unlock = Recipe(Farm, {Food: 10, Wood: 50, Stone: 25, Water: 20})
-bread_unlock = Recipe(Bakery, {Food: 5, Wood: 5, Water: 10, Wheat:15})
+bread_unlock = Recipe(Bakery, {Food: 5, Wood: 5, Water: 10, Wheat: 15})
+hunters_cabin_unlock = Recipe(Hunters_Cabin, {Food: 10, Wood: 20, Stone: 5})

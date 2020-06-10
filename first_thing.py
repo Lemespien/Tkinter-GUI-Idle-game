@@ -1,11 +1,12 @@
-import time
-import tkinter as tk
-root = tk.Tk()
-root.geometry("900x600")
-root.title("Lemegame")
-from class_recipe import *
-from class_resources import *
-from class_building import *
+import time  # nopep8
+import tkinter as tk  # nopep8
+root = tk.Tk()  # nopep8
+from class_recipe import *  # nopep8
+from class_resources import *  # nopep8
+from class_building import *  # nopep8
+root.geometry("900x600")  # nopep8
+root.title("Lemegame")  # nopep8
+
 
 def create_menu():
     menu_choice = tk.IntVar()
@@ -19,7 +20,7 @@ def create_menu():
 
     def ShowChoice():
         print(menu_choice.get())
-            
+
     def Commands():
         ShowChoice()
 
@@ -28,46 +29,52 @@ def create_menu():
     length = len(menu_title.get())*2
 
     menu_frame = tk.Frame(root)
-    menu_frame.pack(side=tk.LEFT)  
+    menu_frame.pack(side=tk.LEFT)
 
-    menu_label = tk.Label(menu_frame,
-            text= menu_title.get(),
-            justify = tk.LEFT,
-            padx = 20).pack()
+    tk.Label(menu_frame,
+             text=menu_title.get(),
+             justify=tk.LEFT,
+             padx=20).pack()
 
     for val, language in enumerate(menu):
         tk.Radiobutton(menu_frame,
-                    text=language,
-                    indicatoron = 0,
-                    width = 40,
-                    padx = length,
-                    variable=menu_choice,
-                    command=Commands,
-                    value=val + 1).pack(anchor=tk.W)
+                       text=language,
+                       indicatoron=0,
+                       width=40,
+                       padx=length,
+                       variable=menu_choice,
+                       command=Commands,
+                       value=val + 1).pack(anchor=tk.W)
+
 
 def create_resource_button(resource, resource_box):
     if not resource.button:
         button_container, checkbox_container, label_container = resource_box
         resource.color_var.set("dark green")
         resource.tk_button = tk.Button(button_container,
-                    text=f"Gather {resource.name}",
-                    padx = 50,
-                    command=lambda:resource.set()).pack()
+                                       text=f"Gather {resource.name}",
+                                       padx=50,
+                                       command=lambda: resource.set())
+        resource.tk_button.pack()
         resource.button = True
+
 
 def create_building_button(building, parent):
     if not building.button:
         button_container, checkbox_container, label_container = parent
         building.tk_button = tk.Button(button_container,
-                    text=f"Build {building.name}",
-                    padx = 50,
-                    command=lambda:building.build(checkbox_container))
+                                       text=f"Build {building.name}",
+                                       padx=50,
+                                       command=lambda: building.build(checkbox_container))
         building.tk_button.pack()
         resource = building.resource
-        resource.label = tk.Label(label_container, text=f"{resource.name}: {resource.get()}", fg="dark green")
-        resource.label.pack()
+        if not resource.unlocked:
+            resource.label = tk.Label(label_container, text=f"{resource.name}: {resource.get()}", fg="dark green")
+            resource.label.pack()
+            resource.unlocked = True
         # building.check_box = tk.Checkbutton(checkbox_container, text="automate", variable=building.automated).pack()
         building.button = True
+
 
 def resource_display_updater(updater, resources, resource_box):
     def tracker():
@@ -79,15 +86,16 @@ def resource_display_updater(updater, resources, resource_box):
                 else:
                     break
         for resource in resources:
-            if resource.label is not None: 
+            if resource.label is not None:
                 drain = resource.calculate_drain()
                 resource.label.config(text=f"{resource.name}: {resource.get()} ({drain}/tick)")
             if resource.automated.get():
-                ### this part -> fix drain when less than 0
+                # this part -> fix drain when less than 0
                 resource.set()
 
         updater.after(100, tracker)
     tracker()
+
 
 def create_resource_panel(parent, side):
     resource_frame = tk.Frame(parent)
@@ -111,16 +119,18 @@ def create_resource_panel(parent, side):
     resource_frame.pack(side=side, expand=True, fill="both", padx=10, pady=10)
     return resource_box
 
-def create_research_panel():   
+
+def create_research_panel():
     research_frame = tk.Frame(root,
-        cursor="heart")
+                              cursor="heart")
 
     research_label = tk.Label(research_frame,
-            text= "Research",
-            padx = 20)
+                              text="Research",
+                              padx=20)
 
     research_frame.pack(side=tk.RIGHT)
     research_label.pack()
+
 
 def __main__():
     create_menu()
@@ -130,8 +140,8 @@ def __main__():
     create_resource_button(Food, resource_box)
     create_building_button(Gatherers_Hut, resource_box)
     container.pack(side=tk.BOTTOM, expand=True, fill="both", padx=5, pady=5)
-    Wood.amount.set(100)
-    Food.amount.set(100)
+    Wood.amount.set(1000)
+    Food.amount.set(1000)
     # Food.increase_other_bonus("Random bonus", 2)
     # Food.increase_multiplier_bonus("New_multiplier", 10)
     # Food.increase_multiplier_bonus("Another_multiplier", 5)
@@ -139,8 +149,6 @@ def __main__():
     print(Food.increase_amount_building)
     root.mainloop()
 
- 
 
 if __name__ == "__main__":
     __main__()
-
